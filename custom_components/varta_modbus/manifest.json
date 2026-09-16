@@ -1,0 +1,19 @@
+{
+  "domain": "varta_modbus",
+  "name": "VARTA Modbus",
+  "codeowners": [
+    "@andreasreinhardt81"
+  ],
+  "config_flow": true,
+  "dependencies": [
+    "modbus"
+  ],
+  "documentation": "https://github.com/andreasreinhardt81/varta_modbus_hacs",
+  "integration_type": "device",
+  "iot_class": "local_polling",
+  "requirements": [
+    "modbus-connection>=4.12.1"
+  ],
+  "issue_tracker": "https://github.com/andreasreinhardt81/varta_modbus_hacs/issues",
+  "version": "0.2.0"
+}

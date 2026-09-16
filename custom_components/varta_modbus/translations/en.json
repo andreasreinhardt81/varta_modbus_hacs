@@ -1,0 +1,75 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Connect to VARTA Modbus",
+        "description": "Enter the Modbus TCP endpoint.",
+        "data": {
+          "host": "Host",
+          "port": "Port",
+          "unit_id": "Unit ID"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Failed to connect"
+    },
+    "abort": {
+      "already_configured": "This device is already configured"
+    }
+  },
+  "entity": {
+    "sensor": {
+      "state": {
+        "name": "State"
+      },
+      "active_power": {
+        "name": "Active power"
+      },
+      "charging_power": {
+        "name": "Charging power"
+      },
+      "discharging_power": {
+        "name": "Discharging power"
+      },
+      "apparent_power": {
+        "name": "Apparent power"
+      },
+      "state_of_charge": {
+        "name": "State of charge"
+      },
+      "ac_to_dc_energy": {
+        "name": "AC to DC energy"
+      },
+      "installed_capacity": {
+        "name": "Installed capacity"
+      },
+      "grid_power": {
+        "name": "Grid power"
+      },
+      "installed_battery_modules": {
+        "name": "Installed battery modules"
+      },
+      "table_version": {
+        "name": "Table version"
+      },
+      "ems_software": {
+        "name": "EMS software"
+      },
+      "ens_software": {
+        "name": "ENS software"
+      },
+      "software": {
+        "name": "Software"
+      }
+    },
+    "number": {
+      "maximum_discharging_power": {
+        "name": "Maximum discharging power"
+      },
+      "maximum_charging_power": {
+        "name": "Maximum charging power"
+      }
+    }
+  }
+}
