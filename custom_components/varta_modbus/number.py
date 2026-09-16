@@ -1,11 +1,14 @@
 """Number platform for writable VARTA Modbus limits."""
 
+from __future__ import annotations
+
 from dataclasses import dataclass
 from typing import override
 
-from .vendor.varta_modbus import VartaStorage
-
-from homeassistant.components.number import NumberEntity, NumberEntityDescription
+from homeassistant.components.number import (
+    NumberEntity,
+    NumberEntityDescription,
+)
 from homeassistant.const import EntityCategory, UnitOfPower
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.device_registry import DeviceInfo
@@ -55,12 +58,19 @@ async def async_setup_entry(
 ) -> None:
     """Set up VARTA writable numbers."""
     async_add_entities(
-        VartaNumber(entry.runtime_data.coordinator, entry, description)
+        VartaNumber(
+            entry.runtime_data.coordinator,
+            entry,
+            description,
+        )
         for description in NUMBERS
     )
 
 
-class VartaNumber(CoordinatorEntity[VartaCoordinator], NumberEntity):
+class VartaNumber(
+    CoordinatorEntity[VartaCoordinator],
+    NumberEntity,
+):
     """A writable VARTA Modbus number."""
 
     entity_description: VartaNumberDescription
@@ -72,11 +82,16 @@ class VartaNumber(CoordinatorEntity[VartaCoordinator], NumberEntity):
         entry: VartaConfigEntry,
         description: VartaNumberDescription,
     ) -> None:
+        """Initialize the number entity."""
         super().__init__(coordinator)
+
         self.entity_description = description
+
         device = coordinator.device
         serial = device.identity.serial_number or entry.entry_id
+
         self._attr_unique_id = f"{serial}_{description.key}"
+
         self._attr_device_info = DeviceInfo(
             identifiers={(DOMAIN, serial)},
             manufacturer="VARTA",
@@ -88,12 +103,22 @@ class VartaNumber(CoordinatorEntity[VartaCoordinator], NumberEntity):
     @property
     @override
     def native_value(self) -> float | None:
-        value = getattr(self.coordinator.device.battery, self.entity_description.field)
+        """Return the current VARTA power limit."""
+        value = getattr(
+            self.coordinator.device.battery,
+            self.entity_description.field,
+        )
+
         return float(value) if value is not None else None
 
-    async def async_set_native_value(self, value: float) -> None:
+    async def async_set_native_value(
+        self,
+        value: float,
+    ) -> None:
         """Write the requested VARTA power limit."""
         await self.coordinator.device.battery.write(
-            self.entity_description.field, int(value)
+            self.entity_description.field,
+            int(value),
         )
+
         await self.coordinator.async_request_refresh()
