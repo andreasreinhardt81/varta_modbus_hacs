@@ -3,4 +3,7 @@
 from .device import VartaStorage
 from .model import VartaState
 
-__all__ = ["VartaState", "VartaStorage"]
+__all__ = [
+    "VartaState",
+    "VartaStorage",
+]
