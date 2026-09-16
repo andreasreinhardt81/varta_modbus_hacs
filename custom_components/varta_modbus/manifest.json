@@ -15,5 +15,5 @@
     "modbus-connection>=4.12.1"
   ],
   "issue_tracker": "https://github.com/andreasreinhardt81/varta_modbus_hacs/issues",
-  "version": "0.2.0"
+  "version": "0.2.1"
 }
