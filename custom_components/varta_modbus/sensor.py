@@ -1,5 +1,7 @@
 """Sensor platform for VARTA Modbus."""
 
+from __future__ import annotations
+
 from collections.abc import Callable
 from dataclasses import dataclass
 from typing import Any, override
@@ -39,7 +41,11 @@ SENSORS = (
     VartaSensorDescription(
         key="state",
         translation_key="state",
-        value_fn=lambda d: d.battery.state.name.lower() if d.battery.state else None,
+        value_fn=lambda device: (
+            device.battery.state.name.lower()
+            if device.battery.state is not None
+            else None
+        ),
     ),
     VartaSensorDescription(
         key="active_power",
@@ -47,7 +53,7 @@ SENSORS = (
         device_class=SensorDeviceClass.POWER,
         native_unit_of_measurement=UnitOfPower.WATT,
         state_class=SensorStateClass.MEASUREMENT,
-        value_fn=lambda d: d.battery.active_power,
+        value_fn=lambda device: device.battery.active_power,
     ),
     VartaSensorDescription(
         key="charging_power",
@@ -55,7 +61,7 @@ SENSORS = (
         device_class=SensorDeviceClass.POWER,
         native_unit_of_measurement=UnitOfPower.WATT,
         state_class=SensorStateClass.MEASUREMENT,
-        value_fn=lambda d: d.battery.charging_power,
+        value_fn=lambda device: device.battery.charging_power,
     ),
     VartaSensorDescription(
         key="discharging_power",
@@ -63,7 +69,7 @@ SENSORS = (
         device_class=SensorDeviceClass.POWER,
         native_unit_of_measurement=UnitOfPower.WATT,
         state_class=SensorStateClass.MEASUREMENT,
-        value_fn=lambda d: d.battery.discharging_power,
+        value_fn=lambda device: device.battery.discharging_power,
     ),
     VartaSensorDescription(
         key="apparent_power",
@@ -71,7 +77,7 @@ SENSORS = (
         device_class=SensorDeviceClass.APPARENT_POWER,
         native_unit_of_measurement=UnitOfApparentPower.VOLT_AMPERE,
         state_class=SensorStateClass.MEASUREMENT,
-        value_fn=lambda d: d.battery.apparent_power,
+        value_fn=lambda device: device.battery.apparent_power,
     ),
     VartaSensorDescription(
         key="state_of_charge",
@@ -79,7 +85,7 @@ SENSORS = (
         device_class=SensorDeviceClass.BATTERY,
         native_unit_of_measurement=PERCENTAGE,
         state_class=SensorStateClass.MEASUREMENT,
-        value_fn=lambda d: d.battery.state_of_charge,
+        value_fn=lambda device: device.battery.state_of_charge,
     ),
     VartaSensorDescription(
         key="ac_to_dc_energy",
@@ -87,14 +93,14 @@ SENSORS = (
         device_class=SensorDeviceClass.ENERGY,
         native_unit_of_measurement=UnitOfEnergy.WATT_HOUR,
         state_class=SensorStateClass.TOTAL_INCREASING,
-        value_fn=lambda d: d.battery.ac_to_dc_energy,
+        value_fn=lambda device: device.battery.ac_to_dc_energy,
     ),
     VartaSensorDescription(
         key="installed_capacity",
         translation_key="installed_capacity",
         device_class=SensorDeviceClass.ENERGY_STORAGE,
         native_unit_of_measurement=UnitOfEnergy.WATT_HOUR,
-        value_fn=lambda d: d.battery.installed_capacity,
+        value_fn=lambda device: device.battery.installed_capacity,
     ),
     VartaSensorDescription(
         key="grid_power",
@@ -102,37 +108,37 @@ SENSORS = (
         device_class=SensorDeviceClass.POWER,
         native_unit_of_measurement=UnitOfPower.WATT,
         state_class=SensorStateClass.MEASUREMENT,
-        value_fn=lambda d: d.grid.power,
+        value_fn=lambda device: device.grid.power,
     ),
     VartaSensorDescription(
         key="installed_battery_modules",
         translation_key="installed_battery_modules",
         entity_category=EntityCategory.DIAGNOSTIC,
-        value_fn=lambda d: d.identity.installed_battery_modules,
+        value_fn=lambda device: device.identity.installed_battery_modules,
     ),
     VartaSensorDescription(
         key="table_version",
         translation_key="table_version",
         entity_category=EntityCategory.DIAGNOSTIC,
-        value_fn=lambda d: d.identity.table_version,
+        value_fn=lambda device: device.identity.table_version,
     ),
     VartaSensorDescription(
         key="ems_software",
         translation_key="ems_software",
         entity_category=EntityCategory.DIAGNOSTIC,
-        value_fn=lambda d: d.identity.ems_software,
+        value_fn=lambda device: device.identity.ems_software,
     ),
     VartaSensorDescription(
         key="ens_software",
         translation_key="ens_software",
         entity_category=EntityCategory.DIAGNOSTIC,
-        value_fn=lambda d: d.identity.ens_software,
+        value_fn=lambda device: device.identity.ens_software,
     ),
     VartaSensorDescription(
         key="software",
         translation_key="software",
         entity_category=EntityCategory.DIAGNOSTIC,
-        value_fn=lambda d: d.identity.software,
+        value_fn=lambda device: device.identity.software,
     ),
 )
 
@@ -144,12 +150,19 @@ async def async_setup_entry(
 ) -> None:
     """Set up VARTA sensors."""
     async_add_entities(
-        VartaSensor(entry.runtime_data.coordinator, entry, description)
+        VartaSensor(
+            entry.runtime_data.coordinator,
+            entry,
+            description,
+        )
         for description in SENSORS
     )
 
 
-class VartaSensor(CoordinatorEntity[VartaCoordinator], SensorEntity):
+class VartaSensor(
+    CoordinatorEntity[VartaCoordinator],
+    SensorEntity,
+):
     """A VARTA Modbus sensor."""
 
     entity_description: VartaSensorDescription
@@ -161,11 +174,16 @@ class VartaSensor(CoordinatorEntity[VartaCoordinator], SensorEntity):
         entry: VartaConfigEntry,
         description: VartaSensorDescription,
     ) -> None:
+        """Initialize the sensor."""
         super().__init__(coordinator)
+
         self.entity_description = description
+
         device = coordinator.device
         serial = device.identity.serial_number or entry.entry_id
+
         self._attr_unique_id = f"{serial}_{description.key}"
+
         self._attr_device_info = DeviceInfo(
             identifiers={(DOMAIN, serial)},
             manufacturer="VARTA",
@@ -177,5 +195,7 @@ class VartaSensor(CoordinatorEntity[VartaCoordinator], SensorEntity):
     @property
     @override
     def native_value(self) -> Any:
-        """Return the current sensor value."""
-        return self.entity_description.value_fn(self.coordinator.device)
+        """Return the sensor value."""
+        return self.entity_description.value_fn(
+            self.coordinator.device
+        )
