@@ -68,12 +68,6 @@ class Identity(Component):
     table_version = integer(1051, signed=False)
     """Register-table version."""
 
-    timestamp = uint32(
-        1052,
-        word_order="little",
-    )
-    """Device timestamp."""
-
     serial_number = string(1054, 10)
     """Storage-system serial number."""
 
