@@ -41,6 +41,17 @@ SENSORS = (
     VartaSensorDescription(
         key="state",
         translation_key="state",
+        device_class=SensorDeviceClass.ENUM,
+        options=[
+            "busy",
+            "run",
+            "charge",
+            "discharge",
+            "standby",
+            "error",
+            "service",
+            "islanding",
+        ],
         value_fn=lambda device: (
             device.battery.state.name.lower()
             if device.battery.state is not None
