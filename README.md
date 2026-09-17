@@ -33,4 +33,5 @@ Two Home Assistant number entities write VARTA holding registers directly:
 
 - **1074 – Maximum discharging power:** signed `int16`; VARTA uses negative values, e.g. `-4000` for a 4 kW discharge limit.
 - **1075 – Maximum charging power:** signed `int16`; VARTA uses positive values, e.g. `4000` for a 4 kW charge limit.
+- Setting to 0 disables charging/discharging. Values below 500W for charging (or above -500W discharging) except 0 are likely to be ignored. Standard Values for Varta Pulse Neo seem to be -1 and -32768. 
 
