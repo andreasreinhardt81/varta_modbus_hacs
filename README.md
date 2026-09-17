@@ -36,6 +36,7 @@ The integration exposes:
 - EMS software version
 - ENS software version
 - Main software version
+- Watchdog Timeout
 
 ### Writable Power Control
 
@@ -194,39 +195,26 @@ The integration automatically handles the VARTA sign conventions.
 
 ## 500 W Limitation
 
-Many VARTA storage systems enforce a minimum charging or discharging limit of approximately **500 W**.
+Many VARTA storage systems enforce a minimum charging or discharging limit of **500 W**.
 
-Values below this threshold may:
+Maximum discharge:
+0 W or <= -500 W
 
-- Be rejected by the storage system
-- Be internally rounded
-- Be ignored by the firmware
+Maximum charge:
+0 W or >= 500 W
 
-The exact behaviour depends on the installed VARTA firmware version.
-
-If a configured limit appears to have no effect, verify whether the requested value is above the firmware-specific minimum threshold.
+These values are checked.
 
 ---
 
 ## VARTA Watchdog Behaviour
 
-VARTA storage systems periodically validate externally written power limits.
+Writing registers 1074 or 1075 starts VARTA's 120 second
+external-control timeout in register 1073.
 
-If limit registers are written only once and no further updates are received, the storage system may automatically revert to internally configured values after a watchdog timeout.
-
-Users implementing dynamic charge/discharge control should therefore regularly update the configured power limits.
-
-Typical use cases include:
-
-- Dynamic electricity tariffs
-- PV surplus charging
-- Peak-shaving
-- Energy management systems (EMS)
-- Grid export limitation
-
-The exact watchdog behaviour and timeout depend on the storage model and installed firmware version.
-
-For this reason, this integration provides direct register access but intentionally does not implement automatic watchdog handling.
+While an external power limit is active, VARTA Modbus refreshes
+the configured value every 60 seconds to prevent the device from
+reverting to its internal default.
 
 ---
 
