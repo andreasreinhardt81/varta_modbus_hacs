@@ -26,6 +26,13 @@
       "port": "Port",
       "unit_id": "Unit ID"
      }
+    },
+  "entity": {
+    "sensor": {
+      "external_control_timeout": {
+        "name": "External Control Timeout"
+      }
+    }
   },
   "entity": {
     "sensor": {
