@@ -16,8 +16,8 @@ assert (INTEGRATION / "vendor" / "varta_modbus" / "device.py").is_file()
 assert (INTEGRATION / "vendor" / "varta_modbus" / "model.py").is_file()
 
 model = (INTEGRATION / "vendor" / "varta_modbus" / "model.py").read_text()
-for register in ("integer(1074", "integer(1075"):
+for register in ("1074", "1075"):
     assert register in model
-assert model.count("writable=True") >= 2
+assert model.count("writable=validate_maximum") >= 2
 
 print("VARTA Modbus repository structure: OK")
