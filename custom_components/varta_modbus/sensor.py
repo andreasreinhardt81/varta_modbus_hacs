@@ -122,6 +122,12 @@ SENSORS = (
         value_fn=lambda device: device.grid.power,
     ),
     VartaSensorDescription(
+        key="external_control_timeout",
+        translation_key="external_control_timeout",
+        native_unit_of_measurement=UnitOfTime.SECONDS,
+        entity_category=EntityCategory.DIAGNOSTIC,
+    ),
+    VartaSensorDescription(
         key="installed_battery_modules",
         translation_key="installed_battery_modules",
         entity_category=EntityCategory.DIAGNOSTIC,
