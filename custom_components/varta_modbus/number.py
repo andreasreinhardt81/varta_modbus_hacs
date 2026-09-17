@@ -1,4 +1,3 @@
-```python
 """Number platform for writable VARTA Modbus limits."""
 
 from __future__ import annotations
@@ -145,4 +144,3 @@ class VartaNumber(
             )
 
         await self.coordinator.async_request_refresh()
-```
