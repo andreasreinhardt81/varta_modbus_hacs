@@ -29,13 +29,6 @@
     },
   "entity": {
     "sensor": {
-      "external_control_timeout": {
-        "name": "External Control Timeout"
-      }
-    }
-  },
-  "entity": {
-    "sensor": {
       "state": {
         "name": "State",
         "state": {
@@ -48,6 +41,9 @@
           "service": "Service",
           "islanding": "Islanding"
         }
+      },
+      "external_control_timeout": {
+        "name": "External Control Timeout"
       },
       "active_power": {
         "name": "Active power"
