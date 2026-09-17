@@ -29,13 +29,6 @@
   },
   "entity": {
     "sensor": {
-      "external_control_timeout": {
-        "name": "Externer Steuerungs-Timeout"
-      }
-    }
-  },
-  "entity": {
-    "sensor": {
       "state": {
         "name": "Status",
         "state": {
@@ -48,6 +41,9 @@
           "service": "Wartungsbetrieb",
           "islanding": "Inselbetrieb"
         }
+      },
+      "external_control_timeout": {
+        "name": "Externer Steuerungs-Timeout"
       },
       "active_power": {
         "name": "Wirkleistung"
