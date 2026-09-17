@@ -29,6 +29,13 @@
   },
   "entity": {
     "sensor": {
+      "external_control_timeout": {
+        "name": "Externer Steuerungs-Timeout"
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
       "state": {
         "name": "Status",
         "state": {
