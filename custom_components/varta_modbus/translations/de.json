@@ -19,12 +19,12 @@
     }
   },
   "reconfigure": {
-   "title": "VARTA Modbus neu konfigurieren",
-   "description": "Aktualisieren Sie die Verbindungsdaten.",
-   "data": {
-     "host": "Host",
-     "port": "Port",
-     "unit_id": "Unit-ID"
+    "title": "VARTA Modbus neu konfigurieren",
+    "description": "Aktualisieren Sie die Verbindungsdaten.",
+    "data": {
+      "host": "Host",
+      "port": "Port",
+      "unit_id": "Unit-ID"
     }
   },
   "entity": {
