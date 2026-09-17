@@ -8,6 +8,7 @@ from modbus_connection import ModbusUnit
 from modbus_connection.model import Device, UpdateReport
 
 from .model import Battery, Grid, Identity
+from .external_control import ExternalControl
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -64,7 +65,8 @@ class VartaStorage(Device):
         self.identity = Identity(unit)
         self.battery = Battery(unit)
         self.grid = Grid(unit)
-
+        self.external_control = ExternalControl(self.battery)
+        
     async def _async_setup(self) -> None:
         """Read stable identity data before normal polling."""
         await self.identity.async_update()
