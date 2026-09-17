@@ -72,7 +72,12 @@ async def async_unload_entry(
     entry: VartaConfigEntry,
 ) -> bool:
     """Unload a VARTA Modbus config entry."""
-    return await hass.config_entries.async_unload_platforms(
+    unload_ok = await hass.config_entries.async_unload_platforms(
         entry,
         PLATFORMS,
     )
+
+    if unload_ok:
+        await entry.runtime_data.device.external_control.async_stop()
+
+    return unload_ok
