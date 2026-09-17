@@ -21,7 +21,17 @@
   "entity": {
     "sensor": {
       "state": {
-        "name": "State"
+        "name": "State",
+        "state": {
+          "busy": "Busy",
+          "run": "Running",
+          "charge": "Charging",
+          "discharge": "Discharging",
+          "standby": "Standby",
+          "error": "Error",
+          "service": "Service",
+          "islanding": "Islanding"
+        }
       },
       "active_power": {
         "name": "Active power"
