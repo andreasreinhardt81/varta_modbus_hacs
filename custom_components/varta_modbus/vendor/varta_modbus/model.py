@@ -15,24 +15,24 @@ from modbus_connection.model import (
 
 
 def validate_maximum_discharging_power(value: int) -> int:
-    """Validate VARTA maximum discharge power."""
+    """Validate maximum discharge power."""
     value = int(value)
 
-    if not -32768 <= value <= 0:
+    if value != 0 and value > -500:
         raise ValueError(
-            "Maximum discharging power must be between -32768 W and 0 W"
+            "Maximum discharge power must be 0 W or below -500 W"
         )
 
     return value
 
 
 def validate_maximum_charging_power(value: int) -> int:
-    """Validate VARTA maximum charging power."""
+    """Validate maximum charge power."""
     value = int(value)
 
-    if not 0 <= value <= 32767:
+    if value != 0 and value < 500:
         raise ValueError(
-            "Maximum charging power must be between 0 W and 32767 W"
+            "Maximum charge power must be 0 W or above 500 W"
         )
 
     return value
@@ -124,7 +124,12 @@ class Battery(Component):
         unit="Wh",
     )
     """Installed battery capacity."""
-
+    external_control_timeout = integer(
+        1073,
+        signed=False,
+        unit="s",
+    )
+    """Watchdog timer."""
     maximum_discharging_power = integer(
         1074,
         signed=True,
