@@ -18,6 +18,7 @@ from homeassistant.const import (
     UnitOfApparentPower,
     UnitOfEnergy,
     UnitOfPower,
+    UnitOfTime,
 )
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.device_registry import DeviceInfo
@@ -126,6 +127,7 @@ SENSORS = (
         translation_key="external_control_timeout",
         native_unit_of_measurement=UnitOfTime.SECONDS,
         entity_category=EntityCategory.DIAGNOSTIC,
+        value_fn=lambda device: device.battery.external_control_timeout,
     ),
     VartaSensorDescription(
         key="installed_battery_modules",
