@@ -18,6 +18,15 @@
       "already_configured": "This device is already configured"
     }
   },
+   "reconfigure": {
+   "title": "Reconfigure VARTA Modbus",
+   "description": "Update the connection settings.",
+   "data": {
+     "host": "Host",
+     "port": "Port",
+     "unit_id": "Unit ID"
+   }
+ }
   "entity": {
     "sensor": {
       "state": {
