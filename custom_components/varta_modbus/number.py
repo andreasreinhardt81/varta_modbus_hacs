@@ -119,7 +119,7 @@ class VartaNumber(
         value = int(value)
 
         if self.entity_description.field == "maximum_discharging_power":
-            if value != 0 and value > -499:
+            if value != 0 and value > -500:
                 raise ValueError(
                     "VARTA accepts discharge limits of 0 W or below -500 W."
                 )
@@ -129,7 +129,7 @@ class VartaNumber(
             )
 
         elif self.entity_description.field == "maximum_charging_power":
-            if value != 0 and value < 499:
+            if value != 0 and value < 500:
                 raise ValueError(
                     "VARTA accepts charge limits of 0 W or above 500 W."
                 )
