@@ -124,3 +124,5 @@ async def test_runtime_data_created(hass):
             hass.config_entries,
             "async_forward_entry_setups",
             AsyncMock
+        )
+    )
