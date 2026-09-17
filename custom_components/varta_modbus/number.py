@@ -1,3 +1,4 @@
+```python
 """Number platform for writable VARTA Modbus limits."""
 
 from __future__ import annotations
@@ -115,10 +116,33 @@ class VartaNumber(
         self,
         value: float,
     ) -> None:
-        """Write the requested VARTA power limit."""
-        await self.coordinator.device.battery.write(
-            self.entity_description.field,
-            int(value),
-        )
+        """Write and maintain the requested VARTA power limit."""
+        value = int(value)
+
+        if self.entity_description.field == "maximum_discharging_power":
+            if value != 0 and value > -499:
+                raise ValueError(
+                    "VARTA accepts discharge limits of 0 W or below -500 W."
+                )
+
+            await self.coordinator.device.external_control.async_set_discharging_power(
+                value
+            )
+
+        elif self.entity_description.field == "maximum_charging_power":
+            if value != 0 and value < 499:
+                raise ValueError(
+                    "VARTA accepts charge limits of 0 W or above 500 W."
+                )
+
+            await self.coordinator.device.external_control.async_set_charging_power(
+                value
+            )
+
+        else:
+            raise ValueError(
+                f"Unsupported VARTA number: {self.entity_description.field}"
+            )
 
         await self.coordinator.async_request_refresh()
+```
