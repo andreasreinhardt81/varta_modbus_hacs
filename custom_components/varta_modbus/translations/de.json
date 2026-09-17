@@ -1,0 +1,85 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Verbindung zu VARTA Modbus",
+        "description": "Geben Sie die Verbindungsdaten des VARTA-Speichers ein.",
+        "data": {
+          "host": "Host",
+          "port": "Port",
+          "unit_id": "Unit-ID"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Verbindung fehlgeschlagen"
+    },
+    "abort": {
+      "already_configured": "Dieses Gerät ist bereits konfiguriert"
+    }
+  },
+  "entity": {
+    "sensor": {
+      "state": {
+        "name": "Status",
+        "state": {
+          "busy": "Aktiv",
+          "run": "Normalbetrieb",
+          "charge": "Laden",
+          "discharge": "Entladen",
+          "standby": "Bereitschaft",
+          "error": "Fehler",
+          "service": "Wartungsbetrieb",
+          "islanding": "Inselbetrieb"
+        }
+      },
+      "active_power": {
+        "name": "Wirkleistung"
+      },
+      "charging_power": {
+        "name": "Ladeleistung"
+      },
+      "discharging_power": {
+        "name": "Entladeleistung"
+      },
+      "apparent_power": {
+        "name": "Scheinleistung"
+      },
+      "state_of_charge": {
+        "name": "Ladezustand"
+      },
+      "ac_to_dc_energy": {
+        "name": "AC-zu-DC-Energie"
+      },
+      "installed_capacity": {
+        "name": "Installierte Speicherkapazität"
+      },
+      "grid_power": {
+        "name": "Netzleistung"
+      },
+      "installed_battery_modules": {
+        "name": "Installierte Batteriemodule"
+      },
+      "table_version": {
+        "name": "Tabellenversion"
+      },
+      "ems_software": {
+        "name": "EMS-Software"
+      },
+      "ens_software": {
+        "name": "ENS-Software"
+      },
+      "software": {
+        "name": "Software"
+      }
+    },
+    "number": {
+      "maximum_discharging_power": {
+        "name": "Maximale Entladeleistung"
+      },
+      "maximum_charging_power": {
+        "name": "Maximale Ladeleistung"
+      }
+    }
+  }
+}
