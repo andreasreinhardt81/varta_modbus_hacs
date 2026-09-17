@@ -7,3 +7,24 @@ ignore = ["D107", "D401"]
 
 [tool.ruff.lint.pydocstyle]
 convention = "pep257"
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+
+markers = [
+    "config_flow",
+]
+
+addopts = [
+    "-ra",
+]
+
+[tool.coverage.run]
+source = [
+    "custom_components/varta_modbus",
+]
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = false
