@@ -14,4 +14,3 @@ DEFAULT_UNIT_ID = 1
 # Writing register 1074 or 1075 starts a 120 second timeout.
 # Refresh the active limits every 60 seconds.
 VARTA_EXTERNAL_CONTROL_TIMEOUT = 120
-VARTA_EXTERNAL_CONTROL_REFRESH = 60.0
