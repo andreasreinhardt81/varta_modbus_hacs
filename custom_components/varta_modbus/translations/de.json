@@ -66,6 +66,9 @@
       "installed_capacity": {
         "name": "Installierte Speicherkapazität"
       },
+      "error_code": {
+        "name": "Fehlercode"
+      },
       "grid_power": {
         "name": "Netzleistung"
       },
@@ -76,13 +79,13 @@
         "name": "Tabellenversion"
       },
       "ems_software": {
-        "name": "EMS-Software"
+        "name": "EMS-Software Version"
       },
       "ens_software": {
-        "name": "ENS-Software"
+        "name": "ENS-Software Version"
       },
       "software": {
-        "name": "Software"
+        "name": "Software Version Inverter"
       }
     },
     "number": {
