@@ -124,6 +124,13 @@ class Battery(Component):
         unit="Wh",
     )
     """Installed battery capacity."""
+    error_code = gauge(
+        1072,
+        10,
+        signed=False,
+    )
+    """Error Code"""
+    
     external_control_timeout = integer(
         1073,
         signed=False,
