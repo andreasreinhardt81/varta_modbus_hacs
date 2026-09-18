@@ -115,6 +115,12 @@ SENSORS = (
         value_fn=lambda device: device.battery.installed_capacity,
     ),
     VartaSensorDescription(
+        key="error_code",
+        translation_key="error_code",
+        entity_category=EntityCategory.DIAGNOSTIC,
+        value_fn=lambda device: device.battery.error_code,
+    ),
+    VartaSensorDescription(
         key="grid_power",
         translation_key="grid_power",
         device_class=SensorDeviceClass.POWER,
