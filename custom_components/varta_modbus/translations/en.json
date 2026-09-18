@@ -66,6 +66,9 @@
       "installed_capacity": {
         "name": "Installed capacity"
       },
+      "error_code": {
+        "name": "Error code"
+      },
       "grid_power": {
         "name": "Grid power"
       },
@@ -76,13 +79,13 @@
         "name": "Table version"
       },
       "ems_software": {
-        "name": "EMS software"
+        "name": "EMS software version"
       },
       "ens_software": {
-        "name": "ENS software"
+        "name": "ENS software version"
       },
       "software": {
-        "name": "Software"
+        "name": "Inverter software version"
       }
     },
     "number": {
