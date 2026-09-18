@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+import logging
 from typing import override
 
 from homeassistant.components.number import (
@@ -18,6 +19,10 @@ from homeassistant.helpers.update_coordinator import CoordinatorEntity
 from . import VartaConfigEntry
 from .const import DOMAIN
 from .coordinator import VartaCoordinator
+
+_LOGGER = logging.getLogger(__name__)
+
+PARALLEL_UPDATES = 0
 
 
 @dataclass(frozen=True, kw_only=True)
@@ -118,29 +123,36 @@ class VartaNumber(
         """Write and maintain the requested VARTA power limit."""
         value = int(value)
 
-        if self.entity_description.field == "maximum_discharging_power":
-            if value != 0 and value > -500:
-                raise ValueError(
-                    "VARTA accepts discharge limits of 0 W or below -500 W."
+        try:
+            if self.entity_description.field == "maximum_discharging_power":
+                await (
+                    self.coordinator.device.external_control
+                    .async_set_discharging_power(value)
                 )
 
-            await self.coordinator.device.external_control.async_set_discharging_power(
-                value
-            )
-
-        elif self.entity_description.field == "maximum_charging_power":
-            if value != 0 and value < 500:
-                raise ValueError(
-                    "VARTA accepts charge limits of 0 W or above 500 W."
+            elif self.entity_description.field == "maximum_charging_power":
+                await (
+                    self.coordinator.device.external_control
+                    .async_set_charging_power(value)
                 )
 
-            await self.coordinator.device.external_control.async_set_charging_power(
-                value
-            )
+            else:
+                _LOGGER.error(
+                    "Unsupported VARTA number: %s",
+                    self.entity_description.field,
+                )
+                return
 
-        else:
-            raise ValueError(
-                f"Unsupported VARTA number: {self.entity_description.field}"
+        except ValueError as err:
+            # Invalid VARTA limits are expected user input errors. Do not let
+            # them escape through HA's websocket service handler as an
+            # "Unexpected exception".
+            _LOGGER.warning(
+                "Rejected invalid VARTA %s value %s W: %s",
+                self.entity_description.field,
+                value,
+                err,
             )
+            return
 
         await self.coordinator.async_request_refresh()
