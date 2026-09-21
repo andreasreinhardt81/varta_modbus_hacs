@@ -14,8 +14,8 @@ from custom_components.varta_modbus.number import (
 def _create_device():
     """Create test device."""
     battery = SimpleNamespace(
-        maximum_discharging_power=-5000,
-        maximum_charging_power=4500,
+        maximum_discharging_power=-4000,
+        maximum_charging_power=3500,
     )
 
     external_control = SimpleNamespace(
@@ -75,7 +75,7 @@ def test_maximum_discharging_power_value():
         "maximum_discharging_power"
     )
 
-    assert entity.native_value == -5000.0
+    assert entity.native_value == -4000.0
 
 
 def test_maximum_charging_power_value():
@@ -84,7 +84,7 @@ def test_maximum_charging_power_value():
         "maximum_charging_power"
     )
 
-    assert entity.native_value == 4500.0
+    assert entity.native_value == 3500.0
 
 
 def test_unique_id():
@@ -122,12 +122,12 @@ def test_number_limits():
         if item.key == "maximum_charging_power"
     )
 
-    assert discharge.native_min_value == -32768
+    assert discharge.native_min_value == -4000
     assert discharge.native_max_value == 0
     assert discharge.native_step == 1
 
     assert charge.native_min_value == 0
-    assert charge.native_max_value == 32767
+    assert charge.native_max_value == 4000
     assert charge.native_step == 1
 
 
@@ -137,10 +137,10 @@ async def test_set_maximum_charging_power():
         "maximum_charging_power"
     )
 
-    await entity.async_set_native_value(6000)
+    await entity.async_set_native_value(3000)
 
     device.external_control.async_set_charging_power.assert_awaited_once_with(
-        6000
+        3000
     )
     device.external_control.async_set_discharging_power.assert_not_awaited()
 
@@ -153,10 +153,10 @@ async def test_set_maximum_discharging_power():
         "maximum_discharging_power"
     )
 
-    await entity.async_set_native_value(-7000)
+    await entity.async_set_native_value(-2000)
 
     device.external_control.async_set_discharging_power.assert_awaited_once_with(
-        -7000
+        -2000
     )
     device.external_control.async_set_charging_power.assert_not_awaited()
 
@@ -165,7 +165,7 @@ async def test_set_maximum_discharging_power():
 
 @pytest.mark.parametrize(
     "value",
-    [-501, -1000, -32768],
+    [-500, -1000, -4000],
 )
 async def test_set_valid_maximum_discharging_power(
     value: int,
@@ -224,7 +224,7 @@ async def test_reject_invalid_maximum_discharging_power(
 
 @pytest.mark.parametrize(
     "value",
-    [501, 1000, 32767],
+    [500, 1000, 4000],
 )
 async def test_set_valid_maximum_charging_power(
     value: int,
