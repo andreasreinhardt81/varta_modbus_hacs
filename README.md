@@ -1,20 +1,45 @@
+[🇬🇧 English](README.md) | [🇩🇪 Deutsch](README_de.md)
+
+[![Home Assistant](https://img.shields.io/badge/Home%20Assistant-2026.9%2B-green.svg)]
+
 # VARTA Modbus
 
-Home Assistant custom integration for VARTA energy-storage systems using Modbus TCP and the modern Home Assistant shared Modbus connection API.
+[![Home Assistant](https://img.shields.io/badge/Home%20Assistant-2026.9%2B-green.svg)](https://www.home-assistant.io/)
 
-This integration provides read access to battery and grid data as well as write access to selected VARTA power-limit registers.
+Home Assistant custom integration for VARTA energy-storage systems using Modbus TCP and the modern Home Assistant shared Modbus connection architecture.
 
-> This project uses the integration domain `varta_modbus` and display name `VARTA Modbus`.
->
-> It is intentionally separate from the older `varta_storage` integration in order to evaluate and validate a modern implementation based on the current Home Assistant Modbus architecture.
+This integration provides:
+
+- Battery monitoring
+- Grid monitoring
+- Writable power limits
+- Diagnostics support
+- Native Home Assistant Config Flow
+- Reconfigure Flow
+- Shared Modbus connections
+- Full translation support
+
+The integration domain is:
+
+```text
+varta_modbus
+```
+
+This project is intentionally separate from the older:
+
+```text
+varta_storage
+```
+
+implementation and is based on current Home Assistant integration standards.
 
 ---
 
-## Features
+# Features
 
-### Battery Monitoring
+## Battery Monitoring
 
-The integration exposes:
+The integration provides the following battery information:
 
 - Operating state
 - Active power
@@ -23,66 +48,76 @@ The integration exposes:
 - Discharging power
 - State of charge (SOC)
 - AC-to-DC energy
-- Installed battery capacity
+- Installed capacity
 
-### Grid Monitoring
+## Grid Monitoring
 
 - Grid power
 
-### Diagnostic Information
+## Diagnostic Information
 
 - Installed battery modules
 - Register table version
 - EMS software version
 - ENS software version
 - Main software version
-- Watchdog Timeout
+- Watchdog timeout
 
-### Writable Power Control
+## Writable Power Control
 
-- Direct access to charging limit register 1075
-- Direct access to discharging limit register 1074
-- Compatible with Home Assistant automations
-- Suitable for dynamic energy management systems
+Direct access to the following VARTA registers:
+
+| Register | Description |
+|----------|-------------|
+| 1074 | Maximum discharging power |
+| 1075 | Maximum charging power |
+
+Supported use cases:
+
+- Dynamic electricity tariffs
+- PV surplus charging
+- Energy management systems (EMS)
+- Peak shaving
+- Grid export limitation
 
 ---
 
-## Requirements
+# Requirements
 
 - Home Assistant 2026.9 or newer
-- VARTA energy-storage system with Modbus TCP support
-- Network connectivity between Home Assistant and the storage system
+- VARTA energy storage system with Modbus TCP access
+- Network connectivity between Home Assistant and the VARTA system
 
 Default values:
 
 | Parameter | Default |
-|------------|---------|
+|----------|---------|
 | Port | 502 |
 | Unit ID | 1 |
 
 ---
 
-## Installation
+# Installation
 
-### HACS
+## HACS
 
-1. Open HACS.
-2. Select **Integrations**.
-3. Open **Custom repositories**.
-4. Add this repository as an **Integration** repository.
-5. Search for **VARTA Modbus**.
-6. Install the integration.
-7. Restart Home Assistant.
+1. Open HACS
+2. Select **Integrations**
+3. Open **Custom repositories**
+4. Add this repository as an **Integration**
+5. Search for **VARTA Modbus**
+6. Install
+7. Restart Home Assistant
 
-### Manual Installation
+## Manual Installation
 
-Copy
+Copy:
 
 ```text
 custom_components/varta_modbus
 ```
 
-to
+to:
 
 ```text
 config/custom_components/
@@ -96,49 +131,51 @@ Settings → Devices & Services → Add Integration
 
 ---
 
-## Configuration
+# Configuration
 
-The integration supports full UI configuration through Home Assistant Config Flow.
+Configuration is performed entirely via Home Assistant UI.
 
-Enter:
+Required settings:
 
-- Host name or IP address
-- TCP port
-- Modbus unit ID
+| Parameter | Description |
+|----------|-------------|
+| Host | VARTA IP address or hostname |
+| Port | Modbus TCP port |
+| Unit ID | Modbus unit identifier |
 
-The connection is validated during configuration.
+Configuration is validated before it is saved.
 
-Configuration can later be modified using the Home Assistant **Reconfigure** function.
+After setup, configuration can be changed using Home Assistant's built-in **Reconfigure** functionality.
 
 ---
 
-## Available Entities
+# Available Entities
 
-### Sensors
+## Sensors
 
 | Entity | Description |
 |----------|-------------|
-| State | Operating state |
-| Active Power | Battery active power |
-| Charging Power | Current charging power |
-| Discharging Power | Current discharging power |
-| Apparent Power | Battery apparent power |
-| State of Charge | Battery state of charge |
+| State | Current operating state |
+| Active Power | Active battery power |
+| Charging Power | Current charge power |
+| Discharging Power | Current discharge power |
+| Apparent Power | Apparent battery power |
+| State of Charge | Battery charge level |
 | AC to DC Energy | Energy counter |
 | Installed Capacity | Installed battery capacity |
-| Grid Power | Current grid power |
+| Grid Power | Grid power |
 
-### Diagnostic Sensors
+## Diagnostic Sensors
 
 | Entity | Description |
 |----------|-------------|
-| Installed Battery Modules | Number of installed modules |
-| Table Version | VARTA register table version |
-| EMS Software | EMS firmware version |
-| ENS Software | ENS firmware version |
+| Installed Battery Modules | Installed module count |
+| Table Version | Register table version |
+| EMS Software | EMS version |
+| ENS Software | ENS version |
 | Software | Main firmware version |
 
-### Configuration Entities
+## Writable Number Entities
 
 | Entity | Description |
 |----------|-------------|
@@ -147,38 +184,36 @@ Configuration can later be modified using the Home Assistant **Reconfigure** fun
 
 ---
 
-## Operating States
-
-The integration currently reports the following VARTA operating states:
+# Operating States
 
 | State | Description |
 |----------|-------------|
-| Busy | Device processing |
+| Busy | Processing |
 | Running | Normal operation |
 | Charging | Battery charging |
 | Discharging | Battery discharging |
 | Standby | Standby mode |
-| Error | Fault condition |
+| Error | Error condition |
 | Service | Service mode |
 | Islanding | Island operation |
 
 ---
 
-## Writable Power Limits
+# Writable Power Limits
 
-The integration provides direct access to the following writable VARTA registers:
+The integration supports writing:
 
 | Register | Function |
 |----------|----------|
 | 1074 | Maximum discharging power |
 | 1075 | Maximum charging power |
 
-### Register Values
+## Register Sign Convention
 
 VARTA internally uses signed values:
 
 | Operation | Example |
-|----------|----------|
+|----------|---------|
 | Charging | +4000 W |
 | Discharging | -4000 W |
 
@@ -189,141 +224,47 @@ Examples:
 -4000 = discharging limited to 4 kW
 ```
 
-The integration automatically handles the VARTA sign conventions.
-
 ---
 
-## 500 W Limitation
+# 500 W Limitation
 
-Many VARTA storage systems enforce a minimum charging or discharging limit of **500 W**.
+Most VARTA firmware versions enforce minimum charge/discharge limits.
 
+Accepted values are typically:
+
+```text
 Maximum discharge:
-0 W or <= -500 W
+0 W
+or <= -500 W
 
 Maximum charge:
-0 W or >= 500 W
-
-These values are checked.
-
----
-
-## VARTA Watchdog Behaviour
-
-Writing registers 1074 or 1075 starts VARTA's 120 second
-external-control timeout in register 1073.
-
-While an external power limit is active, VARTA Modbus refreshes
-the configured value every 60 seconds to prevent the device from
-reverting to its internal default.
-
----
-
-## Migration from varta_storage
-
-The older integration uses the domain:
-
-```text
-varta_storage
+0 W
+or >= 500 W
 ```
 
-This integration uses:
+Values between these thresholds may be rejected by the storage system.
 
-```text
-varta_modbus
-```
-
-Both integrations are independent and can coexist technically, but running both against the same battery is generally not recommended.
-
-Migration procedure:
-
-1. Remove the old integration.
-2. Remove the old custom component files.
-3. Install VARTA Modbus.
-4. Create a new configuration entry.
+The integration validates these limits before writing.
 
 ---
 
-## Technical Notes
+# Watchdog Behaviour
 
-This integration is based on modern Home Assistant integration concepts:
+Writing register 1074 or 1075 activates VARTA's external control watchdog.
 
-- Config Flow
-- Reconfigure Flow
-- Update Coordinator
-- Shared Home Assistant Modbus connection API
-- Diagnostics Support
-- Entity Translations
-- Unique IDs
-- Device Registry
-- Writable Modbus Registers
+Relevant registers:
 
-The bundled VARTA device model preserves the timing behaviour used by the established VARTA community workaround implementation:
+| Register | Function |
+|----------|----------|
+| 1073 | Watchdog timeout |
+| 1074 | Maximum discharge limit |
+| 1075 | Maximum charge limit |
 
-- 250 ms request spacing
-- 3 s minimum timeout
-- 1 s connect delay
+Current implementation:
 
----
+- VARTA watchdog timeout: 120 seconds
+- Automatic refresh interval: 60 seconds
 
-## Diagnostics
-
-The integration supports Home Assistant Diagnostics.
-
-When diagnostics are exported:
-
-- IP addresses are redacted
-- Serial numbers are redacted
-
-This allows safe sharing of diagnostic information when reporting issues.
+As long as an external limit is active, VARTA Modbus automatically refreshes the configured values to prevent the storage system from reverting to its internal defaults.
 
 ---
-
-## Troubleshooting
-
-### Connection cannot be established
-
-Verify:
-
-- Modbus TCP is enabled on the VARTA system
-- Correct IP address or hostname
-- Correct TCP port
-- Correct Unit ID
-- Firewall settings
-
-### Data does not update
-
-Verify:
-
-- Network connectivity
-- Device availability
-- Home Assistant logs
-
-### Power limits are not applied
-
-Verify:
-
-- Requested value exceeds the firmware minimum threshold
-- Watchdog requirements are fulfilled
-- Storage system firmware supports external power control
-
----
-
-## Contributing
-
-Contributions are welcome.
-
-Please read:
-
-```text
-CONTRIBUTING.md
-```
-
-before creating pull requests.
-
----
-
-## Disclaimer
-
-This project is not affiliated with, endorsed by, or sponsored by VARTA AG.
-
-Use at your own risk.
