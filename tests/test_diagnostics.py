@@ -37,8 +37,8 @@ async def test_diagnostics_redacts_sensitive_data(hass):
             state_of_charge=85,
             ac_to_dc_energy=10000,
             installed_capacity=13500,
-            maximum_discharging_power=-5000,
-            maximum_charging_power=5000,
+            maximum_discharging_power=-3000,
+            maximum_charging_power=3000,
         ),
         grid=SimpleNamespace(
             power=-300,
