@@ -1,7 +1,5 @@
 [🇬🇧 English](README.md) | [🇩🇪 Deutsch](README_de.md)
 
-[![Home Assistant](https://img.shields.io/badge/Home%20Assistant-2026.9%2B-green.svg)]
-
 # VARTA Modbus
 
 [![Home Assistant](https://img.shields.io/badge/Home%20Assistant-2026.9%2B-green.svg)](https://www.home-assistant.io/)
