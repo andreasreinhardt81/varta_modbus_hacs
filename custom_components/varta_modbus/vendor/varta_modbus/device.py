@@ -13,8 +13,6 @@ from .external_control import ExternalControl
 _LOGGER = logging.getLogger(__name__)
 
 VARTA_MESSAGE_SPACING = 1.5
-VARTA_TIMEOUT = 3.0
-VARTA_CONNECT_DELAY = 1.0
 
 class VartaStorage(Device):
     """A VARTA storage system addressed as one Modbus unit."""
@@ -37,28 +35,6 @@ class VartaStorage(Device):
                 "per-unit message spacing. VARTA requires approximately "
                 "%s seconds between requests.",
                 VARTA_MESSAGE_SPACING,
-            )
-
-        require_timeout = getattr(unit, "require_timeout", None)
-        if require_timeout is not None:
-            require_timeout(VARTA_TIMEOUT)
-        else:
-            _LOGGER.warning(
-                "The installed modbus-connection version does not support "
-                "per-unit timeout requirements. VARTA normally requires "
-                "a %s second timeout.",
-                VARTA_TIMEOUT,
-            )
-
-        require_connect_delay = getattr(unit, "require_connect_delay", None)
-        if require_connect_delay is not None:
-            require_connect_delay(VARTA_CONNECT_DELAY)
-        else:
-            _LOGGER.warning(
-                "The installed modbus-connection version does not support "
-                "per-unit connect delay requirements. VARTA normally requires "
-                "a %s second connect delay.",
-                VARTA_CONNECT_DELAY,
             )
 
         self.identity = Identity(unit)
