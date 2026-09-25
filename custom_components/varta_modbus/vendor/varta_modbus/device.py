@@ -12,7 +12,7 @@ from .external_control import ExternalControl
 
 _LOGGER = logging.getLogger(__name__)
 
-VARTA_MESSAGE_SPACING = 0.250
+VARTA_MESSAGE_SPACING = 1.5
 VARTA_TIMEOUT = 3.0
 VARTA_CONNECT_DELAY = 1.0
 
