@@ -30,6 +30,7 @@ from .const import DOMAIN
 from .coordinator import VartaCoordinator
 from .vendor.varta_modbus import VartaStorage
 
+PARALLEL_UPDATES = 0
 
 @dataclass(frozen=True, kw_only=True)
 class VartaSensorDescription(SensorEntityDescription):
