@@ -39,7 +39,7 @@ class VartaStorage(Device):
                 VARTA_MESSAGE_SPACING,
             )
 
-        unit.require_timeout(3.0)
+        require_timeout = getattr(unit, "require_timeout", None)
         if require_timeout is not None:
             require_timeout(VARTA_TIMEOUT)
         else:
@@ -50,7 +50,7 @@ class VartaStorage(Device):
                 VARTA_TIMEOUT,
             )
 
-        unit.require_connect_delay(1.0)
+        require_connect_delay = getattr(unit, "require_connect_delay", None)
         if require_connect_delay is not None:
             require_connect_delay(VARTA_CONNECT_DELAY)
         else:
