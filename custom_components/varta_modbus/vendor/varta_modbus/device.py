@@ -12,16 +12,16 @@ from .external_control import ExternalControl
 
 _LOGGER = logging.getLogger(__name__)
 
+VARTA_MESSAGE_SPACING = 0.250
+VARTA_TIMEOUT = 3.0
+VARTA_CONNECT_DELAY = 1.0
+
 class VartaStorage(Device):
     """A VARTA storage system addressed as one Modbus unit."""
 
     def __init__(self, unit: ModbusUnit) -> None:
         """Initialize the VARTA storage device."""
         super().__init__(unit)
-        # Requirements are carried by the unit so callers retain connection ownership.
-        unit.set_message_spacing(0.250)
-        unit.require_timeout(3.0)
-        unit.require_connect_delay(1.0)
         
         # VARTA devices need conservative communication timing.
         #
