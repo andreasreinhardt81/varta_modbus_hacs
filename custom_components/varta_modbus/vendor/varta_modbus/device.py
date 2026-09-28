@@ -5,7 +5,11 @@ from __future__ import annotations
 import logging
 
 from modbus_connection import ModbusUnit
-from modbus_connection.model import Device, UpdateReport
+
+try:
+    from modbus_connection.model import Device, UpdateReport, read_optional
+except ImportError:
+    from ._modbus_device import Device, UpdateReport, read_optional  # type: ignore[assignment]
 
 from .model import Battery, Grid, Identity
 from .external_control import ExternalControl
@@ -14,18 +18,14 @@ _LOGGER = logging.getLogger(__name__)
 
 VARTA_MESSAGE_SPACING = 1.5
 
+
 class VartaStorage(Device):
     """A VARTA storage system addressed as one Modbus unit."""
 
     def __init__(self, unit: ModbusUnit) -> None:
         """Initialize the VARTA storage device."""
         super().__init__(unit)
-        
-        # VARTA devices need conservative communication timing.
-        #
-        # These methods are part of the current modbus-connection API.
-        # The getattr checks keep the library compatible with older
-        # modbus-connection versions that may still be present in HA.
+
         set_message_spacing = getattr(unit, "set_message_spacing", None)
         if set_message_spacing is not None:
             set_message_spacing(VARTA_MESSAGE_SPACING)
@@ -41,7 +41,7 @@ class VartaStorage(Device):
         self.battery = Battery(unit)
         self.grid = Grid(unit)
         self.external_control = ExternalControl(self.battery)
-        
+
     async def _async_setup(self) -> None:
         """Read stable identity data before normal polling."""
         await self.identity.async_update()
