@@ -8,9 +8,9 @@ _LOGGER = logging.getLogger(__name__)
 from modbus_connection import ModbusUnit
 
 try:
-    from modbus_connection.model import Device, UpdateReport, read_optional
+    from modbus_connection.model import Device, UpdateReport
 except ImportError:
-    from ._modbus_device import Device, UpdateReport, read_optional  # type: ignore[assignment]
+    from ._modbus_device import Device, UpdateReport
     _LOGGER.warning(
                 "Using fallback _modbus_device to import Device"
     )
