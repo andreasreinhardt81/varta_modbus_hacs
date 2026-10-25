@@ -55,6 +55,36 @@ Typische Anwendungsfälle:
 - Peak-Shaving
 - Einspeisebegrenzung
 
+## Mögliche Automation für Peak Shaving
+```text
+alias: Varta Ladung verzögern
+description: ''
+triggers:
+  - trigger: time
+    at: '05:00:00'
+conditions:
+  - condition: numeric_state
+    entity_id: sensor.energy_production_today
+    above: 15
+actions:
+  - action: number.set_value
+    metadata: {}
+    target:
+      entity_id: number.varta_maximum_charging_power
+    data:
+      value: '500'
+  - alias: Warten bis 1 Stunde vor dem Solar-Peak
+    wait_template: >-
+      {{ now() >= as_datetime(states('sensor.power_highest_peak_time_today')) -
+      timedelta(hours=1) }}
+  - action: number.set_value
+    metadata: {}
+    target:
+      entity_id: number.varta_maximum_charging_power
+    data:
+      value: '2500'
+mode: single
+```
 ---
 
 # Voraussetzungen
