@@ -78,6 +78,38 @@ Supported use cases:
 - Peak shaving
 - Grid export limitation
 
+## Possible Automation for Peak Shaving
+```text
+alias: Delay Charging
+description: ''
+triggers:
+  - trigger: time
+    at: '05:00:00'
+conditions:
+  - condition: numeric_state
+    entity_id: sensor.energy_production_today
+    above: 15
+actions:
+  - action: number.set_value
+    metadata: {}
+    target:
+      entity_id: number.varta_maximum_charging_power
+    data:
+      value: '500'
+  - alias: Wait until 1 hour to solar peak
+    wait_template: >-
+      {{ now() >= as_datetime(states('sensor.power_highest_peak_time_today')) -
+      timedelta(hours=1) }}
+  - action: number.set_value
+    metadata: {}
+    target:
+      entity_id: number.varta_maximum_charging_power
+    data:
+      value: '2500'
+mode: single
+```
+
+
 ---
 
 # Requirements
