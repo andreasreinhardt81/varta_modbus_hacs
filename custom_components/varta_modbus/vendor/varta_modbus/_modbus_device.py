@@ -9,7 +9,6 @@ from __future__ import annotations
 
 from collections.abc import Iterable
 from dataclasses import dataclass, field
-from typing import TYPE_CHECKING
 
 from modbus_connection.exceptions import (
     IllegalDataAddressError,
@@ -18,10 +17,6 @@ from modbus_connection.exceptions import (
     ModbusError,
     ModbusTimeoutError,
 )
-
-if TYPE_CHECKING:
-    from modbus_connection._protocol import ModbusUnit
-
 
 @dataclass
 class UpdateReport:
