@@ -1,7 +1,4 @@
 """Config flow for VARTA Modbus."""
-
-from __future__ import annotations
-
 from typing import Any, override
 
 import voluptuous as vol
@@ -26,7 +23,6 @@ async def async_validate_input(
     data: dict[str, Any],
 ) -> None:
     """Validate the configured endpoint and VARTA device."""
-
     params = ModbusTcpParams(
         host=data[CONF_HOST].strip(),
         port=data[CONF_PORT],
@@ -48,7 +44,6 @@ def _build_schema(
     unit_id: int = DEFAULT_UNIT_ID,
 ) -> vol.Schema:
     """Build configuration schema."""
-
     return vol.Schema(
         {
             vol.Required(
@@ -75,7 +70,6 @@ def _build_schema(
 
 class VartaConfigFlow(ConfigFlow, domain=DOMAIN):
     """Handle a VARTA Modbus config flow."""
-
     VERSION = 1
 
     @override
@@ -84,7 +78,6 @@ class VartaConfigFlow(ConfigFlow, domain=DOMAIN):
         user_input: dict[str, Any] | None = None,
     ) -> ConfigFlowResult:
         """Handle the user step."""
-
         errors: dict[str, str] = {}
 
         if user_input is not None:
@@ -127,7 +120,6 @@ class VartaConfigFlow(ConfigFlow, domain=DOMAIN):
         user_input: dict[str, Any] | None = None,
     ) -> ConfigFlowResult:
         """Handle integration reconfiguration."""
-
         entry = self._get_reconfigure_entry()
 
         errors: dict[str, str] = {}
