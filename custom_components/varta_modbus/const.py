@@ -1,7 +1,4 @@
 """Constants for the VARTA Modbus integration."""
-
-from __future__ import annotations
-
 DOMAIN = "varta_modbus"
 
 CONF_UNIT_ID = "unit_id"
