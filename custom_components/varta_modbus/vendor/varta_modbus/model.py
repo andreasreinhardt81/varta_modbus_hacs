@@ -130,7 +130,6 @@ class Battery(Component):
         signed=False,
     )
     """Error Code"""
-    
     external_control_timeout = integer(
         1073,
         signed=False,
