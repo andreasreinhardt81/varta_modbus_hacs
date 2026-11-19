@@ -11,7 +11,7 @@ assert manifest["domain"] == "varta_modbus"
 assert manifest["config_flow"] is True
 assert (INTEGRATION / "config_flow.py").is_file()
 assert (INTEGRATION / "translations" / "en.json").is_file()
-assert not (INTEGRATION / "strings.json").exists(), "custom integrations must not ship strings.json"
+assert not (INTEGRATION / "strings.json").exists(), "custom integrations no strings.json"
 assert (INTEGRATION / "vendor" / "varta_modbus" / "device.py").is_file()
 assert (INTEGRATION / "vendor" / "varta_modbus" / "model.py").is_file()
 
