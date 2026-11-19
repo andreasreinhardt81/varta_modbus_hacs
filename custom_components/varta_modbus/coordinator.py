@@ -1,19 +1,18 @@
 """Data update coordinator for VARTA Modbus."""
-from datetime import timedelta
-import logging
 
-from modbus_connection import ModbusError
+import logging
+from datetime import timedelta
 
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.update_coordinator import (
     DataUpdateCoordinator,
     UpdateFailed,
 )
+from modbus_connection import ModbusError
 
 from .vendor.varta_modbus import VartaStorage
 
 _LOGGER = logging.getLogger(__name__)
-
 
 class VartaCoordinator(DataUpdateCoordinator[None]):
     """Poll the changing VARTA measurements."""
