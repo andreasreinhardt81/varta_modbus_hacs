@@ -1,7 +1,4 @@
 """Data update coordinator for VARTA Modbus."""
-
-from __future__ import annotations
-
 from datetime import timedelta
 import logging
 
@@ -20,7 +17,6 @@ _LOGGER = logging.getLogger(__name__)
 
 class VartaCoordinator(DataUpdateCoordinator[None]):
     """Poll the changing VARTA measurements."""
-
     def __init__(
         self,
         hass: HomeAssistant,
