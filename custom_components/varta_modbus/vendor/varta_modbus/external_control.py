@@ -1,11 +1,13 @@
 """VARTA external battery power control."""
 
-from __future__ import annotations
-
 import asyncio
 import logging
 
-from .model import Battery
+from .model import (
+    Battery,
+    validate_maximum_charging_power,
+    validate_maximum_discharging_power,
+)
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -35,40 +37,28 @@ class ExternalControl:
 
     async def async_set_discharging_power(self, value: int) -> None:
         """Set and maintain the maximum discharge power."""
-        value = int(value)
-
-        if value != 0 and value > -500:
-            raise ValueError(
-                "VARTA accepts discharge limits of 0 W or below -500 W."
-            )
+        value = validate_maximum_discharging_power(value)
 
         async with self._lock:
-            self._maximum_discharging_power = value
-
             await self._battery.write(
                 "maximum_discharging_power",
                 value,
             )
 
+            self._maximum_discharging_power = value
             self._ensure_watchdog()
 
     async def async_set_charging_power(self, value: int) -> None:
         """Set and maintain the maximum charge power."""
-        value = int(value)
-
-        if value != 0 and value < 500:
-            raise ValueError(
-                "VARTA accepts charge limits of 0 W or above 500 W."
-            )
+        value = validate_maximum_charging_power(value)
 
         async with self._lock:
-            self._maximum_charging_power = value
-
             await self._battery.write(
                 "maximum_charging_power",
                 value,
             )
 
+            self._maximum_charging_power = value
             self._ensure_watchdog()
 
     def _ensure_watchdog(self) -> None:
