@@ -1,10 +1,12 @@
 """Tests for VARTA Modbus integration setup and unload."""
 
-from unittest.mock import AsyncMock, MagicMock, patch
-
-from custom_components.varta_modbus.const import DOMAIN
+from unittest.mock import AsyncMock
+from unittest.mock import MagicMock
+from unittest.mock import patch
 
 from pytest_homeassistant_custom_component.common import MockConfigEntry
+
+from custom_components.varta_modbus.const import DOMAIN
 
 VALID_CONFIG = {
     "host": "192.168.1.100",
