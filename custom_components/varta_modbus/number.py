@@ -123,34 +123,27 @@ class VartaNumber(
 
         try:
             if self.entity_description.field == "maximum_discharging_power":
+                validate_maximum_discharging_power(value)
                 await (
                     self.coordinator.device.external_control
                     .async_set_discharging_power(value)
                 )
 
             elif self.entity_description.field == "maximum_charging_power":
+                validate_maximum_charging_power(value)
                 await (
                     self.coordinator.device.external_control
                     .async_set_charging_power(value)
                 )
 
             else:
-                _LOGGER.error(
-                    "Unsupported VARTA number: %s",
-                    self.entity_description.field,
+                raise ServiceValidationError(
+                    f"Unsupported VARTA number: {self.entity_description.field}"
                 )
-                return
 
         except ValueError as err:
-            # Invalid VARTA limits are expected user input errors. Do not let
-            # them escape through HA's websocket service handler as an
-            # "Unexpected exception".
-            _LOGGER.warning(
-                "Rejected invalid VARTA %s value %s W: %s",
-                self.entity_description.field,
-                value,
-                err,
-            )
-            return
+            # Report invalid user input through Home Assistant without an
+            # unexpected-exception stack trace.
+            raise ServiceValidationError(str(err)) from err
 
         await self.coordinator.async_request_refresh()
