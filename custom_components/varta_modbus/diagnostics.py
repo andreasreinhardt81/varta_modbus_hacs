@@ -1,7 +1,5 @@
 """Diagnostics support for VARTA Modbus."""
 
-from __future__ import annotations
-
 from typing import Any
 
 from homeassistant.components.diagnostics import async_redact_data
@@ -22,7 +20,6 @@ async def async_get_config_entry_diagnostics(
     entry: VartaConfigEntry,
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
-
     coordinator = entry.runtime_data.coordinator
     device = entry.runtime_data.device
 
