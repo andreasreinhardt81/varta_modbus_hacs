@@ -361,3 +361,9 @@ lesen.
 Dieses Projekt steht in keiner Verbindung zu VARTA AG und wird weder unterstützt noch freigegeben.
 
 Die Verwendung erfolgt auf eigene Verantwortung.
+
+---
+
+## Lizenz
+
+Dieses Projekt steht unter der Apache-Lizenz, Version 2.0. Den vollständigen Lizenztext findest du in der Datei [LICENSE](LICENSE).
