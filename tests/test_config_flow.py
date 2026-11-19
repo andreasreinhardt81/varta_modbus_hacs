@@ -22,7 +22,6 @@ VALID_INPUT = {
 
 async def test_user_flow_create_entry(hass):
     """Test successful user setup."""
-
     with patch(
         "custom_components.varta_modbus.config_flow.async_validate_input",
         AsyncMock(),
@@ -46,7 +45,6 @@ async def test_user_flow_create_entry(hass):
 
 async def test_user_flow_connection_error(hass):
     """Test validation failure."""
-
     with patch(
         "custom_components.varta_modbus.config_flow.async_validate_input",
         side_effect=ValueError,
@@ -67,7 +65,6 @@ async def test_user_flow_connection_error(hass):
 
 async def test_reconfigure_success(hass):
     """Test successful reconfiguration."""
-
     entry = MockConfigEntry(
         domain=DOMAIN,
         title="VARTA Modbus",
@@ -107,7 +104,6 @@ async def test_reconfigure_success(hass):
 
 async def test_reconfigure_validation_error(hass):
     """Test failed reconfiguration."""
-
     entry = MockConfigEntry(
         domain=DOMAIN,
         title="VARTA Modbus",
