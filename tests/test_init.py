@@ -1,11 +1,11 @@
 """Tests for VARTA Modbus integration setup and unload."""
 
-from unittest.mock import AsyncMock
-from unittest.mock import MagicMock
-from unittest.mock import patch
+from unittest.mock import AsyncMock, MagicMock, patch
 
-from custom_components.varta_modbus.const import DOMAIN
 from pytest_homeassistant_custom_component.common import MockConfigEntry
+
+from custom_components.varta_modbus import async_setup_entry, async_unload_entry
+from custom_components.varta_modbus.const import DOMAIN
 
 VALID_CONFIG = {
     "host": "192.168.1.100",
@@ -66,8 +66,6 @@ async def test_setup_entry(hass):
             AsyncMock(),
         ) as mock_forward,
     ):
-        from custom_components.varta_modbus import async_setup_entry
-
         result = await async_setup_entry(hass, entry)
 
     assert result is True
@@ -96,8 +94,6 @@ async def test_unload_entry(hass):
         "async_unload_platforms",
         AsyncMock(return_value=True),
     ) as mock_unload:
-        from custom_components.varta_modbus import async_unload_entry
-
         result = await async_unload_entry(hass, entry)
 
     assert result is True
