@@ -142,7 +142,7 @@ class VartaConfigFlow(ConfigFlow, domain=DOMAIN):
             else:
                 return self.async_update_reload_and_abort(
                     entry,
-                    data=user_input,
+                    data_updates=user_input,
                 )
 
         return self.async_show_form(
