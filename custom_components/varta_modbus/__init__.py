@@ -1,15 +1,12 @@
 """VARTA Modbus integration."""
 
-from __future__ import annotations
-
 from dataclasses import dataclass
-
-from modbus_connection import ModbusTcpParams
 
 from homeassistant.components.modbus import async_get_unit
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import CONF_HOST, CONF_PORT, Platform
 from homeassistant.core import HomeAssistant
+from modbus_connection import ModbusTcpParams
 
 from .const import CONF_UNIT_ID
 from .coordinator import VartaCoordinator
@@ -19,7 +16,6 @@ PLATFORMS = [
     Platform.NUMBER,
     Platform.SENSOR,
 ]
-
 
 @dataclass
 class VartaRuntimeData:
