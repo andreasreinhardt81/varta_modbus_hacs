@@ -1,30 +1,19 @@
 """Top-level VARTA storage device."""
 
-from __future__ import annotations
-
 import logging
 _LOGGER = logging.getLogger(__name__)
 
 from modbus_connection import ModbusUnit
 
-try:
-    from modbus_connection.model import Device, UpdateReport
-except ImportError:
-    from ._modbus_device import Device, UpdateReport
-    _LOGGER.warning(
-                "Using fallback _modbus_device to import Device"
-    )
+from modbus_connection.model import Device, UpdateReport
+
 from .model import Battery, Grid, Identity
 from .external_control import ExternalControl
 
-
-
 VARTA_MESSAGE_SPACING = 1.5
-
 
 class VartaStorage(Device):
     """A VARTA storage system addressed as one Modbus unit."""
-
     def __init__(self, unit: ModbusUnit) -> None:
         """Initialize the VARTA storage device."""
         super().__init__(unit)
