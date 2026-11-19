@@ -16,6 +16,7 @@ _LOGGER = logging.getLogger(__name__)
 
 class VartaCoordinator(DataUpdateCoordinator[None]):
     """Poll the changing VARTA measurements."""
+
     def __init__(
         self,
         hass: HomeAssistant,
