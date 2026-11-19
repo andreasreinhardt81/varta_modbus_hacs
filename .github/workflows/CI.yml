@@ -30,4 +30,4 @@ jobs:
           pip install -r requirements_test.txt
           jq -r '.requirements[]' custom_components/varta_modbus/manifest.json | xargs -r pip install
       - name: Run Pytest
-        run: pytest --cov
+        run: python -m pytest --cov
