@@ -2,7 +2,7 @@
 
 # VARTA Modbus
 
-[![Home Assistant](https://img.shields.io/badge/Home%20Assistant-2026.9%2B-green.svg)](https://www.home-assistant.io/)
+[![Home Assistant](https://img.shields.io/badge/Home%20Assistant-2026.11%2B-green.svg)](https://www.home-assistant.io/)
 
 Home Assistant custom integration for VARTA energy-storage systems using Modbus TCP and the modern Home Assistant shared Modbus connection architecture.
 
