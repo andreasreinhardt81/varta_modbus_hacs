@@ -4,10 +4,15 @@ from types import SimpleNamespace
 from unittest.mock import AsyncMock
 
 import pytest
+from homeassistant.exceptions import ServiceValidationError
 
 from custom_components.varta_modbus.number import (
     NUMBERS,
     VartaNumber,
+)
+from custom_components.varta_modbus.vendor.varta_modbus.model import (
+    validate_maximum_charging_power,
+    validate_maximum_discharging_power,
 )
 
 
@@ -19,8 +24,12 @@ def _create_device():
     )
 
     external_control = SimpleNamespace(
-        async_set_discharging_power=AsyncMock(),
-        async_set_charging_power=AsyncMock(),
+        async_set_discharging_power=AsyncMock(
+            side_effect=validate_maximum_discharging_power,
+        ),
+        async_set_charging_power=AsyncMock(
+            side_effect=validate_maximum_charging_power,
+        ),
     )
 
     return SimpleNamespace(
@@ -165,7 +174,7 @@ async def test_set_maximum_discharging_power():
 
 @pytest.mark.parametrize(
     "value",
-    [-500, -1000, -4000],
+    [-500, -501, -1000, -4000],
 )
 async def test_set_valid_maximum_discharging_power(
     value: int,
@@ -215,7 +224,7 @@ async def test_reject_invalid_maximum_discharging_power(
         "maximum_discharging_power"
     )
 
-    with pytest.raises(ValueError):
+    with pytest.raises(ServiceValidationError):
         await entity.async_set_native_value(value)
 
     device.external_control.async_set_discharging_power.assert_not_awaited()
@@ -224,7 +233,7 @@ async def test_reject_invalid_maximum_discharging_power(
 
 @pytest.mark.parametrize(
     "value",
-    [500, 1000, 4000],
+    [500, 501, 1000, 4000],
 )
 async def test_set_valid_maximum_charging_power(
     value: int,
@@ -274,7 +283,7 @@ async def test_reject_invalid_maximum_charging_power(
         "maximum_charging_power"
     )
 
-    with pytest.raises(ValueError):
+    with pytest.raises(ServiceValidationError):
         await entity.async_set_native_value(value)
 
     device.external_control.async_set_charging_power.assert_not_awaited()
