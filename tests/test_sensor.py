@@ -10,7 +10,6 @@ from custom_components.varta_modbus.sensor import (
 
 def _create_device():
     """Create fake VARTA device."""
-
     return SimpleNamespace(
         identity=SimpleNamespace(
             serial_number="VARTA123",
@@ -34,7 +33,6 @@ def _create_device():
 
 def _create_entry():
     """Create fake config entry."""
-
     return SimpleNamespace(
         entry_id="test_entry",
     )
@@ -42,7 +40,6 @@ def _create_entry():
 
 def _create_coordinator(device):
     """Create fake coordinator."""
-
     return SimpleNamespace(
         device=device,
     )
@@ -50,7 +47,6 @@ def _create_coordinator(device):
 
 def _create_sensor(key: str):
     """Create sensor by key."""
-
     device = _create_device()
 
     description = next(
@@ -68,7 +64,6 @@ def _create_sensor(key: str):
 
 def test_state_sensor_value():
     """Test enum state sensor."""
-
     sensor = _create_sensor("state")
 
     assert sensor.native_value == "run"
@@ -76,7 +71,6 @@ def test_state_sensor_value():
 
 def test_active_power_sensor():
     """Test active power sensor."""
-
     sensor = _create_sensor("active_power")
 
     assert sensor.native_value == 500
@@ -84,7 +78,6 @@ def test_active_power_sensor():
 
 def test_state_of_charge_sensor():
     """Test state of charge sensor."""
-
     sensor = _create_sensor("state_of_charge")
 
     assert sensor.native_value == 87
@@ -92,7 +85,6 @@ def test_state_of_charge_sensor():
 
 def test_grid_power_sensor():
     """Test grid power sensor."""
-
     sensor = _create_sensor("grid_power")
 
     assert sensor.native_value == -250
@@ -100,7 +92,6 @@ def test_grid_power_sensor():
 
 def test_unique_id():
     """Test unique id generation."""
-
     sensor = _create_sensor("state")
 
     assert sensor.unique_id == "VARTA123_state"
@@ -108,7 +99,6 @@ def test_unique_id():
 
 def test_device_info():
     """Test device information."""
-
     sensor = _create_sensor("state")
 
     assert sensor.device_info["manufacturer"] == "VARTA"
@@ -117,7 +107,6 @@ def test_device_info():
 
 def test_enum_options():
     """Test state sensor options."""
-
     description = next(
         sensor
         for sensor in SENSORS
