@@ -2,9 +2,9 @@
 
 from unittest.mock import AsyncMock, MagicMock, patch
 
-from pytest_homeassistant_custom_component.common import MockConfigEntry
 from custom_components.varta_modbus.const import DOMAIN
 
+from pytest_homeassistant_custom_component.common import MockConfigEntry
 
 VALID_CONFIG = {
     "host": "192.168.1.100",
