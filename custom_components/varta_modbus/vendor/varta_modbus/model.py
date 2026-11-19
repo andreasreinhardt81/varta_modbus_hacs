@@ -1,7 +1,5 @@
 """Register models for VARTA storage systems."""
 
-from __future__ import annotations
-
 from enum import IntEnum
 
 from modbus_connection.model import (
