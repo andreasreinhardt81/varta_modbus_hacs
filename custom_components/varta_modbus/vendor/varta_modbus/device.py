@@ -5,8 +5,8 @@ import logging
 from modbus_connection import ModbusUnit
 from modbus_connection.model import Device, UpdateReport
 
-from .model import Battery, Grid, Identity
 from .external_control import ExternalControl
+from .model import Battery, Grid, Identity
 
 _LOGGER = logging.getLogger(__name__)
 
