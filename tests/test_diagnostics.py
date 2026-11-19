@@ -12,7 +12,6 @@ from custom_components.varta_modbus.diagnostics import (
 
 async def test_diagnostics_redacts_sensitive_data(hass):
     """Test diagnostics redacts host and serial number."""
-
     coordinator = SimpleNamespace(
         last_update_success=True,
         update_interval=None,
@@ -83,7 +82,6 @@ async def test_diagnostics_redacts_sensitive_data(hass):
 
 async def test_diagnostics_contains_expected_sections(hass):
     """Test diagnostics structure."""
-
     coordinator = SimpleNamespace(
         last_update_success=True,
         update_interval=None,
