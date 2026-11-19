@@ -14,7 +14,7 @@ VARTA_MESSAGE_SPACING = 1.5
 
 class VartaStorage(Device):
     """A VARTA storage system addressed as one Modbus unit."""
-    
+
     def __init__(self, unit: ModbusUnit) -> None:
         """Initialize the VARTA storage device."""
         super().__init__(unit)
