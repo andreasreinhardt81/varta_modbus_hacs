@@ -298,3 +298,9 @@ Current implementation:
 As long as an external limit is active, VARTA Modbus automatically refreshes the configured values to prevent the storage system from reverting to its internal defaults.
 
 ---
+
+---
+
+## License
+
+This project is licensed under the Apache License, Version 2.0. See [LICENSE](LICENSE) for the full license text.
