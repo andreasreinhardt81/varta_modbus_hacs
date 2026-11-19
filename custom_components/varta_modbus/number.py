@@ -1,9 +1,7 @@
 """Number platform for writable VARTA Modbus limits."""
 
-from __future__ import annotations
-
-from dataclasses import dataclass
 import logging
+from dataclasses import dataclass
 from typing import override
 
 from homeassistant.components.number import (
