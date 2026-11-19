@@ -1,14 +1,12 @@
 """Config flow for VARTA Modbus."""
 
-from typing import Any, override
-
 import voluptuous as vol
 from homeassistant.components.modbus import async_get_temporary_unit
 from homeassistant.config_entries import ConfigFlow, ConfigFlowResult
 from homeassistant.const import CONF_HOST, CONF_PORT
 from homeassistant.exceptions import HomeAssistantError
 from modbus_connection import ModbusError, ModbusTcpParams
-
+from typing import Any, override
 
 from .const import (
     CONF_UNIT_ID,
@@ -69,8 +67,8 @@ def _build_schema(
     )
 
 
+
 class VartaConfigFlow(ConfigFlow, domain=DOMAIN):
-    
     """Handle a VARTA Modbus config flow."""
     VERSION = 1
 
