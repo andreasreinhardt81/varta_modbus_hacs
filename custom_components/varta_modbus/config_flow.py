@@ -1,4 +1,5 @@
 """Config flow for VARTA Modbus."""
+
 from typing import Any, override
 
 import voluptuous as vol
@@ -69,6 +70,7 @@ def _build_schema(
 
 
 class VartaConfigFlow(ConfigFlow, domain=DOMAIN):
+    
     """Handle a VARTA Modbus config flow."""
     VERSION = 1
 
