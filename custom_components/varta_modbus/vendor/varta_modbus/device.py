@@ -1,19 +1,20 @@
 """Top-level VARTA storage device."""
 
 import logging
-_LOGGER = logging.getLogger(__name__)
 
 from modbus_connection import ModbusUnit
-
 from modbus_connection.model import Device, UpdateReport
 
 from .model import Battery, Grid, Identity
 from .external_control import ExternalControl
 
+_LOGGER = logging.getLogger(__name__)
+
 VARTA_MESSAGE_SPACING = 1.5
 
 class VartaStorage(Device):
     """A VARTA storage system addressed as one Modbus unit."""
+    
     def __init__(self, unit: ModbusUnit) -> None:
         """Initialize the VARTA storage device."""
         super().__init__(unit)
