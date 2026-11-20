@@ -8,6 +8,8 @@ import pytest
 from custom_components.varta_modbus.number import (
     NUMBERS,
     VartaNumber,
+    VartaNumberDescription,
+    async_setup_entry,
 )
 from custom_components.varta_modbus.vendor.varta_modbus.model import (
     validate_maximum_charging_power,
@@ -248,3 +250,58 @@ async def test_set_zero_maximum_charging_power(
         value
     )
     coordinator.async_request_refresh.assert_awaited_once()
+
+
+async def test_async_setup_entry(hass) -> None:
+    """Test platform setup creates expected number entities."""
+    device = _create_device()
+    coordinator = _create_coordinator(device)
+
+    entry = SimpleNamespace(
+        entry_id="test_entry",
+        runtime_data=SimpleNamespace(coordinator=coordinator),
+    )
+
+    added_entities: list[VartaNumber] = []
+
+    await async_setup_entry(
+        hass,
+        entry,
+        added_entities.extend,
+    )
+
+    assert len(added_entities) == len(NUMBERS)
+    assert {e.entity_description.key for e in added_entities} == {
+        "maximum_discharging_power",
+        "maximum_charging_power",
+    }
+
+
+async def test_set_unsupported_field_logs_error_and_returns() -> None:
+    """Test unsupported field does not call external control or refresh."""
+    device = _create_device()
+    coordinator = _create_coordinator(device)
+    description = VartaNumberDescription(
+        key="unknown_field",
+        field="unknown_field",
+    )
+
+    entity = VartaNumber(coordinator, _create_entry(), description)
+
+    await entity.async_set_native_value(100)
+
+    device.external_control.async_set_charging_power.assert_not_awaited()
+    device.external_control.async_set_discharging_power.assert_not_awaited()
+    coordinator.async_request_refresh.assert_not_awaited()
+
+
+async def test_set_invalid_value_catches_value_error() -> None:
+    """Test ValueError from external control is caught without refresh."""
+    entity, coordinator, device = _create_number("maximum_charging_power")
+
+    await entity.async_set_native_value(250)
+
+    device.external_control.async_set_charging_power.assert_awaited_once_with(
+        250
+    )
+    coordinator.async_request_refresh.assert_not_awaited()
