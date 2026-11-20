@@ -1,7 +1,5 @@
 """Sensor platform for VARTA Modbus."""
 
-from __future__ import annotations
-
 from collections.abc import Callable
 from dataclasses import dataclass
 from typing import Any, override
