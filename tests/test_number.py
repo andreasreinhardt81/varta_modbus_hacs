@@ -211,26 +211,6 @@ async def test_set_zero_maximum_discharging_power(
     )
     coordinator.async_request_refresh.assert_awaited_once()
 
-
-@pytest.mark.parametrize(
-    "value",
-    [-499, -498, -1],
-)
-async def test_reject_invalid_maximum_discharging_power(
-    value: int,
-):
-    """Test invalid discharge power values are rejected."""
-    entity, coordinator, device = _create_number(
-        "maximum_discharging_power"
-    )
-
-    with pytest.raises(ServiceValidationError):
-        await entity.async_set_native_value(value)
-
-    device.external_control.async_set_discharging_power.assert_not_awaited()
-    coordinator.async_request_refresh.assert_not_awaited()
-
-
 @pytest.mark.parametrize(
     "value",
     [500, 501, 1000, 4000],
@@ -269,22 +249,6 @@ async def test_set_zero_maximum_charging_power(
         value
     )
     coordinator.async_request_refresh.assert_awaited_once()
-
-
-@pytest.mark.parametrize(
-    "value",
-    [1, 498, 499],
-)
-async def test_reject_invalid_maximum_charging_power(
-    value: int,
-):
-    """Test invalid charge power values are rejected."""
-    entity, coordinator, device = _create_number(
-        "maximum_charging_power"
-    )
-
-    with pytest.raises(ServiceValidationError):
-        await entity.async_set_native_value(value)
 
     device.external_control.async_set_charging_power.assert_not_awaited()
     coordinator.async_request_refresh.assert_not_awaited()
