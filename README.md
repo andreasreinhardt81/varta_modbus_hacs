@@ -2,7 +2,7 @@
 
 # VARTA Modbus
 
-[![Home Assistant](https://img.shields.io/badge/Home%20Assistant-2026.9%2B-green.svg)](https://www.home-assistant.io/)
+[![Home Assistant](https://img.shields.io/badge/Home%20Assistant-2026.11%2B-green.svg)](https://www.home-assistant.io/)
 [![HACS](https://img.shields.io/badge/HACS-Custom-orange.svg)](https://www.hacs.xyz/)
 [![Latest Release](https://img.shields.io/github/v/release/andreasreinhardt81/varta_modbus_hacs?display_name=tag&sort=semver)](https://github.com/andreasreinhardt81/varta_modbus_hacs/releases/latest)
 [![Code Coverage](https://img.shields.io/badge/Coverage-100%25-brightgreen.svg)](https://github.com/andreasreinhardt81/varta_modbus_hacs)
