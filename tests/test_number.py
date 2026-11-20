@@ -248,6 +248,3 @@ async def test_set_zero_maximum_charging_power(
         value
     )
     coordinator.async_request_refresh.assert_awaited_once()
-
-    device.external_control.async_set_charging_power.assert_not_awaited()
-    coordinator.async_request_refresh.assert_not_awaited()
