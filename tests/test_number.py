@@ -4,7 +4,6 @@ from types import SimpleNamespace
 from unittest.mock import AsyncMock
 
 import pytest
-from homeassistant.exceptions import ServiceValidationError
 
 from custom_components.varta_modbus.number import (
     NUMBERS,
