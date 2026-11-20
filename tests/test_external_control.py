@@ -93,7 +93,8 @@ async def test_watchdog_refreshes_active_limits():
         battery.write.reset_mock()
 
         assert control._task is not None
-        await control._task
+        with pytest.raises(asyncio.CancelledError):
+            await control._task
 
     assert battery.write.await_count == 2
     battery.write.assert_any_await("maximum_discharging_power", -1000)
@@ -123,7 +124,8 @@ async def test_watchdog_continues_after_write_error():
     ):
         await control.async_set_charging_power(1000)
         assert control._task is not None
-        await control._task
+        with pytest.raises(asyncio.CancelledError):
+            await control._task
 
     assert battery.write.await_count == 2
     await control.async_stop()
