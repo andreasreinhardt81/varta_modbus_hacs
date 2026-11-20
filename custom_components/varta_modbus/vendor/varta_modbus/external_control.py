@@ -41,13 +41,12 @@ class ExternalControl:
             )
 
         async with self._lock:
-            self._maximum_discharging_power = value
-
             await self._battery.write(
                 "maximum_discharging_power",
                 value,
             )
 
+            self._maximum_discharging_power = value
             self._ensure_watchdog()
 
     async def async_set_charging_power(self, value: int) -> None:
@@ -60,13 +59,12 @@ class ExternalControl:
             )
 
         async with self._lock:
-            self._maximum_charging_power = value
-
             await self._battery.write(
                 "maximum_charging_power",
                 value,
             )
 
+            self._maximum_charging_power = value
             self._ensure_watchdog()
 
     def _ensure_watchdog(self) -> None:
