@@ -1,10 +1,12 @@
 """Tests for the VARTA Modbus config flow."""
 
+from collections.abc import Generator
 from unittest.mock import AsyncMock, patch
 
 from homeassistant.config_entries import SOURCE_RECONFIGURE, SOURCE_USER
 from homeassistant.const import CONF_HOST, CONF_PORT
 from homeassistant.data_entry_flow import FlowResultType
+import pytest
 from pytest_homeassistant_custom_component.common import MockConfigEntry
 
 from custom_components.varta_modbus.const import (
@@ -18,6 +20,16 @@ VALID_INPUT = {
     CONF_PORT: DEFAULT_PORT,
     CONF_UNIT_ID: 1,
 }
+
+
+@pytest.fixture(autouse=True)
+def mock_setup_entry() -> Generator[AsyncMock]:
+    """Prevent actual integration setup during config flow tests."""
+    with patch(
+        "custom_components.varta_modbus.async_setup_entry",
+        return_value=True,
+    ) as mock_setup:
+        yield mock_setup
 
 
 async def test_user_flow_create_entry(hass) -> None:
