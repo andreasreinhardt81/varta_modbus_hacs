@@ -5,6 +5,7 @@ from types import SimpleNamespace
 from custom_components.varta_modbus.sensor import (
     SENSORS,
     VartaSensor,
+    async_setup_entry,
 )
 
 
@@ -123,3 +124,26 @@ def test_enum_options():
         "service",
         "islanding",
     ]
+
+
+async def test_sensor_async_setup_entry(hass) -> None:
+    """Test sensor platform setup registers all VARTA sensors."""
+    device = _create_device()
+    coordinator = _create_coordinator(device)
+    entry = SimpleNamespace(
+        entry_id="test_entry",
+        runtime_data=SimpleNamespace(coordinator=coordinator),
+    )
+
+    added_entities: list[VartaSensor] = []
+
+    await async_setup_entry(
+        hass,
+        entry,
+        added_entities.extend,
+    )
+
+    assert len(added_entities) == len(SENSORS)
+    assert {entity.entity_description.key for entity in added_entities} == {
+        desc.key for desc in SENSORS
+    }
